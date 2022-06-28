@@ -1,0 +1,21 @@
+{"tags":null,"ca_certificates":null,"tls_verify":null,"tls_verify_depth":null,"connect_timeout":60000,"read_timeout":60000,"id":"9d15b73a-1b4b-4e4f-ad0e-cd553f3e052c","path":null,"protocol":"http","host":"localhost","name":"admin-api","created_at":1656378856,"updated_at":1656378856,"client_certificate":null,"enabled":true,"retries":5,"port":8001,"write_timeout":60000}
+
+curl --location --request POST 'http://localhost:8001/services/9d15b73a-1b4b-4e4f-ad0e-cd553f3e052c/routes' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "paths": ["/admin-api"]
+}'
+
+curl -X POST http://localhost:8001/services/admin-api/plugins \
+    --data "name=key-auth"
+
+curl --location --request POST 'http://localhost:8001/consumers/' \
+--form 'username=konga' \
+--form 'custom_id=cdbd360d-3le6-4f8f-81c2-31573qe984da'
+
+{"created_at":1656379035,"custom_id":"cdbd360d-3le6-4f8f-81c2-31573qe984da","id":"8f87f7b5-8585-460b-b1c4-f710c7b59f4d","username":"konga","tags":null}
+
+--create api key
+curl --location --request POST 'http://localhost:8001/consumers/8f87f7b5-8585-460b-b1c4-f710c7b59f4d/key-auth'
+
+{"created_at":1656379105,"consumer":{"id":"8f87f7b5-8585-460b-b1c4-f710c7b59f4d"},"id":"6f5361aa-87bb-422f-9902-f43e94f1a2cc","key":"PkxfwNVPOtlQygD6aAkswRtOFDqxVhrd","ttl":null,"tags":null}
