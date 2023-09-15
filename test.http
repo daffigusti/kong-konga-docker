@@ -1,0 +1,2 @@
+GET https://ifconfig.me
+Content-Type:  application/json

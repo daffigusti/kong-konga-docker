@@ -1,6 +1,15 @@
 {"tags":null,"ca_certificates":null,"tls_verify":null,"tls_verify_depth":null,"connect_timeout":60000,"read_timeout":60000,"id":"9d15b73a-1b4b-4e4f-ad0e-cd553f3e052c","path":null,"protocol":"http","host":"localhost","name":"admin-api","created_at":1656378856,"updated_at":1656378856,"client_certificate":null,"enabled":true,"retries":5,"port":8001,"write_timeout":60000}
 
-curl --location --request POST 'http://localhost:8001/services/9d15b73a-1b4b-4e4f-ad0e-cd553f3e052c/routes' \
+
+curl --location --request POST 'http://localhost:8001/services/' \                                                 ─╯
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "admin-api",
+    "host": "localhost",
+    "port": 8001
+}'
+
+curl --location --request POST 'http://localhost:8001/services/admin-api/routes' \                                 ─╯
 --header 'Content-Type: application/json' \
 --data-raw '{
     "paths": ["/admin-api"]
@@ -13,9 +22,32 @@ curl --location --request POST 'http://localhost:8001/consumers/' \
 --form 'username=konga' \
 --form 'custom_id=cdbd360d-3le6-4f8f-81c2-31573qe984da'
 
-{"created_at":1656379035,"custom_id":"cdbd360d-3le6-4f8f-81c2-31573qe984da","id":"8f87f7b5-8585-460b-b1c4-f710c7b59f4d","username":"konga","tags":null}
+{"updated_at":1692325754,"username":"konga","id":"6f3c8960-5726-4192-abba-7ae909265521","tags":null,"custom_id":"cdbd360d-3le6-4f8f-81c2-31573qe984da","created_at":1692325754}
 
 --create api key
-curl --location --request POST 'http://localhost:8001/consumers/8f87f7b5-8585-460b-b1c4-f710c7b59f4d/key-auth'
+curl --location --request POST 'http://localhost:8001/consumers/6f3c8960-5726-4192-abba-7ae909265521/key-auth'
 
-{"created_at":1656379105,"consumer":{"id":"8f87f7b5-8585-460b-b1c4-f710c7b59f4d"},"id":"6f5361aa-87bb-422f-9902-f43e94f1a2cc","key":"PkxfwNVPOtlQygD6aAkswRtOFDqxVhrd","ttl":null,"tags":null}
+{"consumer":{"id":"6f3c8960-5726-4192-abba-7ae909265521"},"created_at":1692325786,"key":"ezbVlMQ3V1sgkOBFs1QV2jBKooGGkp9n","tags":null,"ttl":null,"id":"c0d3b5e1-3f46-4140-842c-35d92340804c"}
+
+#tutorial
+https://dev.to/vousmeevoyez/setup-kong-konga-part-2-dan
+
+
+
+curl -X POST http://localhost:8001/services/dbff1c4a-c04c-46a8-8648-344a63e173c6/plugins \
+    --data "name=zipkin"  \
+    --data "config.http_endpoint=http://localhost:9411/api/v2/spans" \
+    --data "config.sample_ratio=0.001" \
+    --data "config.include_credential=true"
+
+curl -X POST http://localhost:8001/plugins/ \
+    --data "name=zipkin"  \
+    --data "config.http_endpoint=http://zipkin:9411/api/v2/spans" \
+    --data 'config.sample_ratio=1' \
+    --data "config.include_credential=true"
+
+
+
+user konga : 
+daffigusti
+admin123
